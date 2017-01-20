@@ -13,7 +13,7 @@ if (!is_array($ip_addresses)) {
 }
 
 // Handle inputs
-$ip = preg_replace('/[^0-9\.]/', '', substr(trim(isset($_REQUEST['ip']) ? $_REQUEST['ip'] : $_SERVER['REMOTE_ADDR'], 0, 15)));
+$ip = preg_replace('/[^0-9\.]/', '', substr(trim(isset($_REQUEST['ip']) ? $_REQUEST['ip'] : $_SERVER['REMOTE_ADDR']), 0, 15));
 $name = preg_replace('/[^\w\-_\.]/', '', substr(trim($_REQUEST['name']), 0, 32));
 $mail_to = substr(trim($_REQUEST['notify']), 0, 128);
 
