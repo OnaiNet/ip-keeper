@@ -1,6 +1,11 @@
 <?php
 /**
- * Quick and dirty utility to take/store/notify of IP addresses
+ * SERVER: Quick and dirty utility to take/store/notify of IP addresses
+ *
+ * Simply run this from any server with PHP
+ * 
+ * REQUIREMENTS:
+ *  - user of script must have write access to "ip_addresses.php" in same folder
  *
  * @author Kevin Gwynn <kevin.gwynn@gmail.com>
  * @since 2017-01-19
@@ -17,13 +22,16 @@ $ip = preg_replace('/[^0-9\.]/', '', substr(trim(isset($_REQUEST['ip']) ? $_REQU
 $name = preg_replace('/[^\w\-_\.]/', '', substr(trim($_REQUEST['name']), 0, 32));
 $mail_to = substr(trim($_REQUEST['notify']), 0, 128);
 
+if (empty($name)) {
+	handle_error(400, "Missing parameter: name");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	handle_post($name, $ip, $mail_to);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	handle_get($name);
 } else {
-	http_response_code(400);
-	echo "Bad request";
+	handle_error(400, "Bad request");
 }
 
 exit();
@@ -43,8 +51,7 @@ function handle_get($name) {
 			echo get_details($ip_addresses[$name]);
 		}
 	} else {
-		http_response_code(404);
-		printf('IP address [%s] not found', $name);
+		handle_error(404, "IP address [$name] not found");
 	}
 }
 
@@ -87,6 +94,16 @@ function handle_post($name, $ip, $notify_email_address) {
 	}
 
 	write_out();
+}
+
+/**
+ * Handle error
+ */
+function handle_error($response_code, $message) {
+	http_response_code($response_code);
+	header("Content-Type: text/plain");
+	echo $message;
+	exit();
 }
 
 /**

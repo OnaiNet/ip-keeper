@@ -16,6 +16,22 @@ This tool accepts GET and POST requests:
 
 By default, the response will be `Content-Type: application/json` with details about the stored IP if it exists. If "simple" mode is requested, only the IP address will be output, using `Content-Type: text/plain`.
 
+## Server
+
+Install the server (index.php) on any web server with PHP or by using PHP's built-in web server (php -S).
+
+## Client
+
+Use any tool to make HTTP calls to save and restore IP addresses by name (see examples below). Provided are some client scripts for Windows and Linux based systems.
+
+### Suggested clients
+* cURL (Windows/Linux - acquire separately)
+* wget (Windows/Linux - acquire separately)
+* update_local_ip.bat (Windows - provided)
+* update_remote_ip.bat (Windows - provided)
+* update_local_ip.sh (Linux - provided)
+* update_remote_ip.sh (Linux - provided)
+
 ## Examples
 
 ### Store an IP
